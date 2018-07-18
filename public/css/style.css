@@ -997,7 +997,7 @@ blockquote {
     height: 123px;
     width: 123px;
     border-radius: 50%;
-    background: url("../img/portrait_230px.JPG");
+    background: url("../img/portrait_2_230px.jpg");
     background-size: cover;
     margin: 0 auto; }
   .mdl-layout__drawer .candidate-name {
@@ -1203,7 +1203,7 @@ blockquote {
   height: 230px;
   width: 230px;
   border-radius: 50%;
-  background: url("../img/portrait_2_230px.JPG");
+  background: url("../img/portrait_2_230px.jpg");
   background-size: cover;
   margin: 0 auto; }
 .about-sec .social-icons {
