@@ -1956,3 +1956,7 @@ blockquote {
     left: -25px; } }
 
 /*# sourceMappingURL=style.css.map */
+
+.timeline-body{
+  padding-left: 14px;
+}
