@@ -10,4 +10,4 @@
     1. Development
         1. run the application from the directory using `nodemon .`.
     2. Production
-        1. run the application on the desired server using the command `pm2 start $projectDir/bin/www --name jhochendoner.com`.
+    1. run the application on the desired server using the command `pm2 start $projectDir/bin/www --name jhochendoner.com`.
