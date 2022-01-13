@@ -869,7 +869,9 @@ blockquote {
   color: #fff;
   height: 40px;
   padding: 3px 20px;
-  font-weight: 400; }
+  width: 100px;
+  font-weight: 400; 
+}
   .mdl-button.view-more {
     color: #444; }
 
@@ -1164,7 +1166,8 @@ blockquote {
   left: 0;
   top: 0; }
   .bg-struct.bg-img {
-    background: url("../img/img_bg_comp_2.jpg");
+    /* background: url("../img/img_bg_comp_2.jpg"); */
+    background: url("../img/orange.jpg");
     background-position: center;
     background-size: cover; }
   .bg-struct.bg-img-2 {
@@ -1945,6 +1948,11 @@ blockquote {
       width: 100%;
       margin-bottom: 4px; } }
 @media (max-width: 414px) {
+  .mdl-button{
+    display: block;
+    margin-right: 0px !important;
+    width: 100%;
+  }
   h1 {
     font-size: 27px; } }
 @media (max-width: 358px) {
