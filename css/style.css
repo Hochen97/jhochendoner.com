@@ -952,12 +952,12 @@ blockquote {
     transition: 0.3s ease; }
     .mdl-layout__header .mdl-layout__header-row .mdl-navigation .mdl-navigation__link:hover {
       background: none;
-      color: #01c853; }
+      color: #ff3d00; }
     .mdl-layout__header .mdl-layout__header-row .mdl-navigation .mdl-navigation__link:focus, .mdl-layout__header .mdl-layout__header-row .mdl-navigation .mdl-navigation__link:active {
       background: none;
       opacity: 1; }
     .mdl-layout__header .mdl-layout__header-row .mdl-navigation .mdl-navigation__link:after {
-      background: #01c853;
+      background: #ff3d00;
       bottom: 0;
       content: "";
       height: 2px;
