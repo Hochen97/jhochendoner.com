@@ -711,6 +711,9 @@ p {
 .bg-red {
   background: #ff3d00 !important; }
 
+.bg-hover-red:hover {
+    background: #ff3d00 !important; }
+
 .bg-violet {
   background: #6200eb !important; }
 
