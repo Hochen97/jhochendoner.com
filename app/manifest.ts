@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     icons: [
       {
-        src: '/favicon.ico',
+        src: '/img/JRH Shadow Red-Orange.svg',
         sizes: 'any',
         type: 'image/x-icon',
       },

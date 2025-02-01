@@ -87,15 +87,15 @@ export async function generateMetadata({ params, searchParams }) {
   return {
     description,
     icons: {
-      apple: [{ url: '/apple-touch-icon.png' }, { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-      icon: '/favicon-32x32.png',
+      apple: [{ url: '/img/JRH Shadow Red-Orange.svg' }, { url: '/img/JRH Shadow Red-Orange.svg', sizes: '180x180', type: 'image/svg' }],
+      icon: '/img/JRH Shadow Red-Orange.svg',
       other: [
         {
-          rel: 'apple-touch-icon-precomposed',
-          url: '/apple-touch-icon-precomposed.png',
+          rel: 'JRH Shadow Red-Orange',
+          url: '/img/JRH Shadow Red-Orange.svg',
         },
       ],
-      shortcut: '/favicon-16x16.png',
+      shortcut: '/img/JRH Shadow Red-Orange.svg',
     },
     metadataBase: new URL('https://jhochendoner.com'),
     openGraph: {
@@ -122,9 +122,12 @@ export async function generateMetadata({ params, searchParams }) {
 // https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts
 export default async function Page(props) {
     return (
-      <DefaultLayout previewPixelSRC="https://intdev-global.s3.us-west-2.amazonaws.com/template-app-icon.png">
+      <DefaultLayout previewPixelSRC="/img/JRH Shadow Red-Orange.svg">
         <br />
         <Grid>
+          <Row>
+            <Avatar src="/img/JRH Shadow Red-Orange.svg" href="https://jhochendoner.com" target="_blank" />
+          </Row>
           <Row>
             {Package.name.toUpperCase()} <Badge>{Package.version}</Badge>
           </Row>
