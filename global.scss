@@ -138,16 +138,16 @@ video {
 
 a {
   background: var(--theme-border-subdued);
-  color: var(--theme-text);
+  color: var(--theme-link-text);
 
   &:hover {
     background: var(--theme-focused-foreground);
-    color: var(--theme-text);
+    color: var(--theme-link-text);
   }
 
   &:focus {
     background: var(--theme-focused-foreground);
-    color: var(--theme-text);
+    color: var(--theme-link-text);
     outline: 0;
   }
 }
@@ -246,12 +246,13 @@ body.theme-dark {
   --theme-border: var(--color-gray-80);
   --theme-border-subdued: var(--color-gray-70-3);
   --theme-text: var(--color-white);
+  --theme-link-text: var(--color-white);
   --theme-button: var(--color-white);
   --theme-button-text: var(--color-black-100);
   --theme-button-foreground: var(--color-gray-90);
   --theme-button-background: var(--color-gray-80);
-  --theme-focused-foreground: var(--color-daybreak-10);
-  --theme-focused-foreground-subdued: var(--color-daybreak-10-5);
+  --theme-focused-foreground: var(--color-jrh);
+  --theme-focused-foreground-subdued: var(--color-daybreak-10);
 }
 
 body.theme-green {
@@ -405,6 +406,8 @@ body {
   --color-daybreak-70-3: rgba(121, 50, 0, 0.3);
   --color-daybreak-80: rgba(102, 42, 0, 1);
   --color-daybreak-90: rgba(82, 34, 0, 1);
+
+  --color-jrh: #fa3b00;
 
   --color-gold-30: rgba(241, 194, 27, 1);
 

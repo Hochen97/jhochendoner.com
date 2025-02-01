@@ -126,11 +126,10 @@ export default async function Page(props) {
         <br />
         <Grid>
           <Row>
-            <Avatar src="/img/JRH Shadow Red-Orange.svg" href="https://jhochendoner.com" target="_blank" />
+          {/* {Package.name.toUpperCase()} <Badge>{Package.version}</Badge> */}
           </Row>
-          <Row>
-            {Package.name.toUpperCase()} <Badge>{Package.version}</Badge>
-          </Row>
+          {/* <img style={{"width": "40px", "marginBottom": "-5px"}} src="/img/JRH Shadow Red-Orange.svg" alt="Jacob Hochendoner" /> */}
+          <RowSpaceBetween><img style={{"width": "40px", "marginLeft": "-5px"}} src="/img/JRH Shadow Red-Orange.svg" alt="Jacob Hochendoner" />{Package.name.toUpperCase()}</RowSpaceBetween>
           <Row>{Package.description}</Row>
         </Grid>
   
