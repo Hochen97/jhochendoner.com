@@ -14,7 +14,7 @@ yarn.lock
 node_modules
 dist
 analytics.txt
-package-lock.json
+# package-lock.json
 
 /**/*/.DS_STORE
 /**/*/node_modules
