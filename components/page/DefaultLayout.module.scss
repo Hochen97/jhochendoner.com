@@ -1,5 +1,6 @@
 .body {
   max-width: 80ch;
+  margin: auto;
 }
 
 .pixel {
@@ -8,4 +9,11 @@
   position: absolute;
   top: 0;
   width: 1px;
+}
+
+// if mobile device left align, else center div
+@media (min-width: 768px) {
+  .body {
+    margin: 0 auto;
+  }
 }
