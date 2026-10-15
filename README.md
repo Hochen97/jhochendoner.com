@@ -1,26 +1,10 @@
-# SRCL
+# jhochendoner.com
 
-**[Live Demo](https://sacred.computer)**
+Jacob Hochendoner's personal site. Static HTML — no framework, no build step.
 
-SRCL is an open-source React component and style repository that helps you build web applications, desktop applications, and static websites with terminal aesthetics. Its modular, easy-to-use components emphasize precise monospace character spacing and line heights, enabling you to quickly copy and paste implementations while maintaining a clean, efficient codebase.
+- `site/` is the document root deployed to GitHub Pages via `.github/workflows/publish.yml`.
+- `site/index.html` is the full page (self-contained; styles and logo inlined).
+- `site/favicon*` / `site/apple-touch-icon*` are the site icons.
 
-```sh
-npm install
-npm run dev
-```
-
-Go to `http://localhost:10000` in your browser of choice.
-
-We use [Vercel](https://vercel.com/home) for hosting.
-
-### Scripts (Optional)
-
-If you need to run node script without running the server, use this example to get started
-
-```sh
-npm run script example
-```
-
-### Contact
-
-If you have questions ping me on Twitter, [@wwwjim](https://www.twitter.com/wwwjim). Or you can ping [@internetxstudio](https://x.com/internetxstudio).
+To preview locally: serve the `site/` directory with any static server, e.g.
+`python3 -m http.server -d site`.
