@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090909" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f0eb" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>Jacob Hochendoner — Data, AI &amp; Cloud</title>
+  <meta name="description" content="Jacob Hochendoner helps people and makes computers do cool stuff, usually at the same time." />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f2f0eb;
+      --surface: #e8e5df;
+      --ink: #101010;
+      --muted: #4d4b47;
+      --line: rgba(16,16,16,.3);
+      --line-soft: rgba(16,16,16,.12);
+      --accent: #ff3d00;
+      --accent-soft: rgba(255,61,0,.14);
+      --shadow: rgba(0,0,0,.14);
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Bahnschrift, "DIN Alternate", "Avenir Next Condensed", "Helvetica Neue", sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #090909;
+        --surface: #121212;
+        --ink: #fff;
+        --muted: #aaa9a5;
+        --line: rgba(255,255,255,.34);
+        --line-soft: rgba(255,255,255,.13);
+        --accent-soft: rgba(255,61,0,.16);
+        --shadow: rgba(0,0,0,.7);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: .66;
+      background-image: radial-gradient(circle, color-mix(in srgb, var(--ink) 16%, transparent) .7px, transparent .8px);
+      background-size: 6px 6px;
+      mix-blend-mode: soft-light;
+    }
+    ::selection { background: var(--accent); color: #fff; }
+    a { color: inherit; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+
+    .rail {
+      position: fixed;
+      top: max(24px, env(safe-area-inset-top));
+      right: max(24px, env(safe-area-inset-right));
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font: 600 10px/1 var(--mono);
+      letter-spacing: .12em;
+    }
+    .rail a {
+      text-decoration: none;
+      opacity: .65;
+      transition: opacity .2s ease, color .2s ease;
+    }
+    .rail a:hover { opacity: 1; color: var(--accent); }
+    .rail .live {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 1;
+    }
+    .rail .live::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent);
+      animation: signal 2.4s ease-in-out infinite;
+    }
+
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto 1fr auto;
+      padding: max(36px, env(safe-area-inset-top)) clamp(24px, 5vw, 76px) max(28px, env(safe-area-inset-bottom));
+      position: relative;
+      isolation: isolate;
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, transparent 0 11%, var(--line-soft) 11% calc(11% + 1px), transparent calc(11% + 1px) 71%, var(--line-soft) 71% calc(71% + 1px), transparent calc(71% + 1px)),
+        linear-gradient(0deg, transparent 0 14%, var(--line-soft) 14% calc(14% + 1px), transparent calc(14% + 1px) 83%, var(--line-soft) 83% calc(83% + 1px), transparent calc(83% + 1px));
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: min(58vw, 860px);
+      aspect-ratio: 1;
+      right: -20%;
+      bottom: -45%;
+      border: 1px solid var(--line-soft);
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 12vw var(--bg), inset 0 0 0 calc(12vw + 1px) var(--line-soft);
+      opacity: .7;
+    }
+
+    .hero-meta {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      padding-right: clamp(210px, 25vw, 330px);
+      font: 500 9px/1.4 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: reveal .6s .15s ease forwards;
+    }
+    .hero-meta strong { color: var(--ink); font-weight: 600; }
+
+    .identity {
+      align-self: center;
+      width: min(900px, 80vw);
+      padding-top: 1vh;
+    }
+    .maker {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: clamp(8px, 1.6vh, 18px);
+      font: 600 clamp(9px, .8vw, 12px)/1 var(--mono);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: reveal .7s .3s ease forwards;
+    }
+    .maker::before { content: ""; width: 34px; height: 1px; background: var(--accent); }
+
+    .logo-wrap {
+      width: min(560px, 68vw);
+      margin-left: clamp(-28px, -2vw, -6px);
+      position: relative;
+    }
+    .logo-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 14% 8%;
+      background: var(--accent-soft);
+      filter: blur(42px);
+      z-index: -1;
+      opacity: 0;
+      animation: logoGlow 3.2s 2.1s ease-in-out infinite alternate;
+    }
+    .jrh-logo { display: block; width: 100%; height: auto; overflow: visible; }
+    .jrh-logo path {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 40;
+      stroke-linecap: round;
+      stroke-dasharray: 260;
+      stroke-dashoffset: 260;
+      filter: drop-shadow(1px 2px 0 var(--shadow));
+      animation: draw 1.3s cubic-bezier(.64,0,.22,1) forwards;
+    }
+    .jrh-logo path:nth-child(1) { animation-delay: .35s; }
+    .jrh-logo path:nth-child(2) { animation-delay: .46s; }
+    .jrh-logo path:nth-child(3) { animation-delay: .57s; }
+    .jrh-logo path:nth-child(4) { animation-delay: .68s; }
+    .jrh-logo path:nth-child(5) { animation-delay: .79s; }
+    .jrh-logo path:nth-child(6) { animation-delay: .9s; }
+
+    .name-lockup {
+      margin-top: clamp(-20px, -2vw, -8px);
+      opacity: 0;
+      animation: reveal .8s 1.55s ease forwards;
+    }
+    .name {
+      margin: 0;
+      font-size: clamp(23px, 3.1vw, 50px);
+      line-height: .93;
+      letter-spacing: .14em;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--ink);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .domain {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      font: 500 9px/1 var(--mono);
+      letter-spacing: .24em;
+      color: var(--muted);
+    }
+    .domain::after { content: ""; height: 1px; width: min(150px, 18vw); background: var(--line); }
+
+    .tagline {
+      width: min(610px, 78vw);
+      margin: clamp(26px, 4vh, 46px) 0 0;
+      font-size: clamp(18px, 2.1vw, 32px);
+      line-height: 1.16;
+      letter-spacing: -.025em;
+      font-weight: 450;
+      opacity: 0;
+      animation: reveal .8s 1.85s ease forwards;
+    }
+    .tagline .accent { color: var(--accent); }
+
+    .specs {
+      align-self: center;
+      justify-self: end;
+      display: grid;
+      width: clamp(188px, 19vw, 270px);
+      border-top: 1px solid var(--line);
+      opacity: 0;
+      animation: reveal .7s 2.05s ease forwards;
+    }
+    .spec {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font: 600 9px/1.35 var(--mono);
+      letter-spacing: .06em;
+    }
+    .spec dt { color: var(--muted); }
+    .spec dd { margin: 0; text-align: right; }
+    .spec:first-child dd { color: var(--accent); }
+
+    .scroll-cue {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font: 500 9px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: reveal .7s 2.45s ease forwards;
+    }
+    .scroll-cue a { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .scroll-cue a::after { content: "↓"; color: var(--accent); font-size: 16px; animation: nudge 1.8s ease-in-out infinite; }
+
+    .content {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 76px);
+    }
+    .section {
+      min-height: 72vh;
+      padding: clamp(80px, 11vw, 160px) 0;
+      display: grid;
+      grid-template-columns: minmax(180px, 28%) minmax(0, 1fr);
+      gap: clamp(34px, 7vw, 120px);
+      border-bottom: 1px solid var(--line);
+    }
+    .section-heading { align-self: start; position: sticky; top: 58px; }
+    .section-index {
+      margin: 0 0 18px;
+      font: 600 10px/1 var(--mono);
+      letter-spacing: .16em;
+      color: var(--accent);
+    }
+    .section-title {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 64px);
+      line-height: .94;
+      letter-spacing: -.045em;
+      font-weight: 650;
+      max-width: 9ch;
+    }
+    .section-intro {
+      margin: 20px 0 0;
+      color: var(--muted);
+      font: 500 11px/1.45 var(--mono);
+      max-width: 24ch;
+    }
+
+    .rows { border-top: 1px solid var(--line); }
+    .row {
+      display: grid;
+      grid-template-columns: minmax(160px, .7fr) minmax(230px, 1.25fr) auto;
+      gap: clamp(20px, 3vw, 46px);
+      align-items: start;
+      padding: 24px 0 25px;
+      border-bottom: 1px solid var(--line);
+      transition: padding-left .25s ease;
+    }
+    .row:hover { padding-left: 10px; }
+    .row-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      font: 700 12px/1.25 var(--mono);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .row-name::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--accent);
+      transform: rotate(45deg);
+    }
+    .row-copy { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .row-copy strong { display: block; margin-bottom: 5px; color: var(--ink); font-weight: 650; }
+    .row-link {
+      justify-self: end;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 14px;
+      font: 600 9px/1.3 var(--mono);
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+    .row-link a { text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+    .row-link a:hover { color: var(--accent); border-color: var(--accent); }
+    .unavailable { color: var(--muted); opacity: .72; cursor: not-allowed; }
+    .unavailable small { display: block; font-size: 7px; margin-top: 4px; }
+
+    .footer {
+      min-height: 34vh;
+      display: grid;
+      align-content: end;
+      gap: 26px;
+      padding: clamp(90px, 13vw, 180px) clamp(24px, 5vw, 76px) max(34px, env(safe-area-inset-bottom));
+    }
+    .footer-rule { width: 100%; height: 1px; background: var(--line); position: relative; }
+    .footer-rule::before { content: ""; position: absolute; left: 0; top: -2px; width: 54px; height: 5px; background: var(--accent); }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font: 600 9px/1.5 var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .footer-row strong { color: var(--ink); }
+
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes reveal { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: none; } }
+    @keyframes logoGlow { from { opacity: .2; transform: scale(.96); } to { opacity: .68; transform: scale(1.03); } }
+    @keyframes signal { 50% { opacity: .35; box-shadow: 0 0 3px var(--accent); } }
+    @keyframes nudge { 50% { transform: translateY(5px); } }
+
+    @media (max-width: 820px) {
+      .rail { right: 18px; top: 18px; gap: 14px; }
+      .rail a:not(.live) { display: none; }
+      .hero {
+        min-height: 100svh;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto auto;
+        padding-inline: 22px;
+      }
+      .hero-meta { padding-right: 94px; }
+      .hero-meta span:last-child { display: none; }
+      .identity { width: 100%; padding-top: 2vh; }
+      .logo-wrap { width: min(590px, 92vw); margin-left: -25px; }
+      .name { font-size: clamp(18px, 6.3vw, 34px); white-space: normal; max-width: 13ch; line-height: 1.02; }
+      .tagline { width: min(92%, 580px); font-size: clamp(19px, 5.5vw, 29px); }
+      .specs {
+        justify-self: stretch;
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        border-bottom: 1px solid var(--line);
+        margin: 24px 0 18px;
+      }
+      .spec { padding: 8px 0; border-bottom: 0; grid-template-columns: 52px 1fr; }
+      .spec:nth-child(odd) { padding-right: 14px; border-right: 1px solid var(--line); }
+      .spec:nth-child(even) { padding-left: 14px; }
+      .scroll-cue { display: none; }
+      .section { grid-template-columns: 1fr; min-height: auto; padding: 92px 0; gap: 44px; }
+      .section-heading { position: static; }
+      .section-title { max-width: 11ch; }
+      .section-intro { max-width: 35ch; }
+      .row { grid-template-columns: 1fr; gap: 12px; padding: 22px 0; }
+      .row:hover { padding-left: 0; }
+      .row-link { justify-self: start; justify-content: flex-start; margin-top: 5px; }
+      .footer { min-height: 28vh; }
+    }
+
+    @media (max-width: 460px) {
+      .maker { margin-bottom: 0; }
+      .hero { padding-top: 26px; }
+      .hero-meta { font-size: 8px; }
+      .logo-wrap { width: 105vw; margin-left: -17vw; }
+      .name-lockup { margin-top: -12px; }
+      .domain::after { width: 42px; }
+      .specs { font-size: 8px; }
+      .spec { display: block; }
+      .spec dt { margin-bottom: 4px; }
+      .spec dd { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+      .row { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="rail" aria-label="Section navigation">
+    <a class="live" href="#top">JRH / 2026</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#companies">COMPANIES</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="top" aria-labelledby="site-name">
+      <div class="hero-meta">
+        <span><strong>PERSONAL SYSTEM</strong> / REV. 2026</span>
+        <span>LONG ISLAND, NY</span>
+      </div>
+
+      <div class="identity">
+        <div class="maker">Designed &amp; built by</div>
+        <div class="logo-wrap" aria-label="JRH monogram">
+          <svg class="jrh-logo" viewBox="0 0 720 360" role="img" aria-labelledby="logo-title">
+            <title id="logo-title">JRH logo</title>
+            <path d="M415.997 180.691 452.939 79.461"/>
+            <path d="m157.179 281.921 36.942-101.23"/>
+            <path d="m305.059 281.921 73.94-202.842"/>
+            <path d="m526.879 281.921 36.942-101.23"/>
+            <path d="m452.939 281.921 73.94-202.842"/>
+            <path d="m231.119 281.921 73.94-202.842"/>
+          </svg>
+        </div>
+        <div class="name-lockup">
+          <h1 class="name" id="site-name">Jacob Hochendoner</h1>
+          <div class="domain">JHOCHENDONER.COM</div>
+        </div>
+        <p class="tagline">I help <span class="accent">people</span> and make computers do cool stuff, usually at the same time.</p>
+      </div>
+
+      <dl class="specs" aria-label="Profile details">
+        <div class="spec"><dt>ROLE</dt><dd>SR. SOLUTION ARCHITECT</dd></div>
+        <div class="spec"><dt>FOCUS</dt><dd>DATA · AI · CLOUD</dd></div>
+        <div class="spec"><dt>BASE</dt><dd>LONG ISLAND, NY</dd></div>
+        <div class="spec"><dt>EMPLOYER</dt><dd>PSEG LONG ISLAND</dd></div>
+      </dl>
+
+      <div class="scroll-cue">
+        <a href="#projects">Index / Continue</a>
+        <span>JRH TECH / HUMAN × MACHINE</span>
+      </div>
+    </section>
+
+    <div class="content">
+      <section class="section" id="projects" aria-labelledby="projects-title">
+        <header class="section-heading">
+          <p class="section-index">01 / PROJECTS</p>
+          <h2 class="section-title" id="projects-title">Projects I've worked on.</h2>
+          <p class="section-intro">Selected systems, products, and experiments.</p>
+        </header>
+        <div class="rows">
+          <article class="row">
+            <div class="row-name">PHANTOM.COMPUTER</div>
+            <p class="row-copy">A computer that follows you, and disappears when not needed.</p>
+            <div class="row-link">
+              <a href="https://phantom.computer" target="_blank" rel="noopener noreferrer">VISIT ↗</a>
+              <a href="https://github.com/phantom-computer" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+            </div>
+          </article>
+          <article class="row">
+            <div class="row-name">INFINITUM</div>
+            <p class="row-copy">A tool to make working with databases not suck.</p>
+            <div class="row-link">
+              <!-- Repository URL needs confirmation against the live site before deployment. -->
+              <span class="unavailable" aria-disabled="true">GITHUB ↗<small>URL PENDING</small></span>
+            </div>
+          </article>
+          <article class="row">
+            <div class="row-name">GO-LINKS</div>
+            <p class="row-copy">A personal URL shortener.</p>
+            <div class="row-link">
+              <!-- Repository URL needs confirmation against the live site before deployment. -->
+              <span class="unavailable" aria-disabled="true">GITHUB ↗<small>URL PENDING</small></span>
+            </div>
+          </article>
+          <article class="row">
+            <div class="row-name">THETATAUOMB.COM</div>
+            <p class="row-copy">A website for my fraternity.</p>
+            <div class="row-link">
+              <a href="https://thetatauomb.com" target="_blank" rel="noopener noreferrer">VISIT ↗</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="companies" aria-labelledby="companies-title">
+        <header class="section-heading">
+          <p class="section-index">02 / COMPANIES</p>
+          <h2 class="section-title" id="companies-title">Companies I've started or worked for.</h2>
+          <p class="section-intro">A concise operating history.</p>
+        </header>
+        <div class="rows">
+          <article class="row">
+            <div class="row-name">PSEG LONG ISLAND</div>
+            <p class="row-copy"><strong>Sr. Solution Architect, Enterprise Analytics</strong>Apr 2023 – Present</p>
+            <div class="row-link"><span>CURRENT</span></div>
+          </article>
+          <article class="row">
+            <div class="row-name">FDO.AI</div>
+            <p class="row-copy"><strong>Co-Founder, CAIO · Aug 2023 – Oct 2024</strong>AI solutions for small businesses; built chatbots Edison and Arthur.</p>
+            <div class="row-link"><span>AI SYSTEMS</span></div>
+          </article>
+          <article class="row">
+            <div class="row-name">NYSHEX</div>
+            <p class="row-copy"><strong>Co-Founder, CAIO · Aug 2023 – Oct 2024</strong>Enterprise data warehouse on AWS.</p>
+            <div class="row-link"><span>DATA / CLOUD</span></div>
+          </article>
+          <article class="row">
+            <div class="row-name">LEGALSOFT USA, INC.</div>
+            <p class="row-copy"><strong>Co-Founder, CTO · May 2016 – Aug 2018</strong>Built GIFTANDNOTE.COM.</p>
+            <div class="row-link"><span>PRODUCT</span></div>
+          </article>
+          <article class="row">
+            <div class="row-name">SIMON ELLIOT EVENTS / BAS</div>
+            <p class="row-copy"><strong>Creative Engineering Consultant</strong>Jun 2012 – Jul 2018</p>
+            <div class="row-link"><span>CREATIVE ENG.</span></div>
+          </article>
+          <article class="row">
+            <div class="row-name">CONRA</div>
+            <p class="row-copy"><strong>Full-Stack Web Developer</strong>May 2018 – Jul 2019</p>
+            <div class="row-link"><span>WEB SYSTEMS</span></div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-rule"></div>
+    <div class="footer-row">
+      <span>© 2026 <strong>JACOB HOCHENDONER</strong></span>
+      <span><strong>JRH TECH</strong></span>
+      <span>BUILT BY HAND, NOT BY COMMITTEE</span>
+    </div>
+  </footer>
+
+</body>
+</html>
